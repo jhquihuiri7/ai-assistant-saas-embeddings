@@ -1,6 +1,10 @@
 runtime: python310
 env: standard
 
+resources:
+  cpu: 2  # CPU (puedes ajustar esto según las necesidades)
+  memory_gb: 2  # Memoria
+
 instance_class: F4_HIGHMEM
 
 env_variables:
@@ -11,14 +15,13 @@ handlers:
   - url: /static
     static_dir: static/
     secure: always
-  
+
   - url: /.* 
     script: auto
 
-entrypoint: git -b :$PORT bot_endeddings.wsgi:application
-
+entrypoint: gunicorn --bind :$PORT --timeout 1000 bot_endeddings.wsgi:application
 automatic_scaling:
   min_instances: 1
-  max_instances: 5
+  max_instances: 10  # Aumentado para un mayor número de instancias
   target_cpu_utilization: 0.65
   target_throughput_utilization: 0.65
