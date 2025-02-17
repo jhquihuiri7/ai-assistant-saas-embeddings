@@ -1,0 +1,24 @@
+runtime: python310
+env: standard
+
+instance_class: F4_HIGHMEM
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: "bot_endeddings.settings"  # Ajusta esto con el nombre de tu archivo de configuración de Django
+  PYTHONUNBUFFERED: 1
+
+handlers:
+  - url: /static
+    static_dir: static/
+    secure: always
+  
+  - url: /.* 
+    script: auto
+
+entrypoint: git -b :$PORT bot_endeddings.wsgi:application
+
+automatic_scaling:
+  min_instances: 1
+  max_instances: 5
+  target_cpu_utilization: 0.65
+  target_throughput_utilization: 0.65
