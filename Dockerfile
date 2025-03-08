@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # Instala dependencias
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Expone el puerto en el que correrá Django
 EXPOSE 8000
